@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Color tokens ── */
+:root {
+  --bg: #fafafa;
+  --bg-2: #f0f0f0;
+  --surface: #ffffff;
+  --surface-2: rgba(0, 0, 0, 0.04);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-focus: rgba(8, 145, 178, 0.5);
+  --text-1: #0a0a0a;
+  --text-2: #505050;
+  --text-3: #a0a0a0;
+  --accent: #0891b2;
+  --accent-light: rgba(8, 145, 178, 0.1);
+  --accent-glow: rgba(8, 145, 178, 0.25);
+  --user-bubble: #0a0a0a;
+  --user-text: #fafafa;
+  --ai-bubble: #ffffff;
+  --ai-border: rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --bg: #050505;
+  --bg-2: #0f0f0f;
+  --surface: #111111;
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(34, 211, 238, 0.4);
+  --text-1: #f0f0f0;
+  --text-2: #909090;
+  --text-3: #505050;
+  --accent: #22d3ee;
+  --accent-light: rgba(34, 211, 238, 0.08);
+  --accent-glow: rgba(34, 211, 238, 0.2);
+  --user-bubble: #f0f0f0;
+  --user-text: #0a0a0a;
+  --ai-bubble: #111111;
+  --ai-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Base ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-1);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* ── Chat prose styles ── */
+.chat-prose {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--text-1);
+}
+
+.chat-prose p {
+  margin-bottom: 0.5rem;
+}
+.chat-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-prose strong {
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.chat-prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.chat-prose ul li {
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.chat-prose ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  top: 0.25rem;
+}
+
+.chat-prose ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.chat-prose ol li {
+  margin-bottom: 0.25rem;
+}
+
+.chat-prose h1,
+.chat-prose h2,
+.chat-prose h3 {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.chat-prose h1 { font-size: 1.25rem; }
+.chat-prose h2 { font-size: 1.1rem; }
+.chat-prose h3 { font-size: 1rem; }
+
+.chat-prose code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.82em;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  color: var(--accent);
+}
+
+.chat-prose pre {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+
+.chat-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--text-1);
+}
+
+.chat-prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.chat-prose blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+  color: var(--text-2);
+  margin: 0.75rem 0;
+  font-style: italic;
+}
+
+/* ── Splash ring animation ── */
+@keyframes splash-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+
+.splash-ring {
+  position: fixed;
+  pointer-events: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  animation: splash-ring 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 9998;
+}
+
+/* ── Mouse gradient canvas ── */
+#mouse-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+#mouse-canvas.inactive {
+  opacity: 0;
+}
+
+/* ── Input textarea auto-resize ── */
+.chat-input {
+  field-sizing: content;
+  min-height: 1.5rem;
+  max-height: 8rem;
+  overflow-y: auto;
+}
